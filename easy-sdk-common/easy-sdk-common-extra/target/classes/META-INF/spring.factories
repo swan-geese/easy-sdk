@@ -1,0 +1,1 @@
+org.springframework.boot.env.EnvironmentPostProcessor=com.easy.sdk.common.extra.mybatis.processor.DataSourceProcessor

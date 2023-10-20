@@ -1,0 +1,513 @@
+﻿<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>io.github.swangeese</groupId>
+	<artifactId>easy-sdk-parent</artifactId>
+	<version>2.0.0</version>
+	<packaging>pom</packaging>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.3.12.RELEASE</version>
+	</parent>
+
+	<name>${project.artifactId}</name>
+	<url>https://github.com/swan-geese/easy-sdk</url>
+	<description>springboot-底层封装及相关工具包</description>
+
+	<properties>
+		<!-- 项目版本 -->
+		<easy.sdk.version>2.0.0</easy.sdk.version>
+		<!-- springcloud-cloud -->
+		<spring-cloud.version>Greenwich.RELEASE</spring-cloud.version>
+		<spring-cloud-alibaba.version>2.2.1.RELEASE</spring-cloud-alibaba.version>
+		<bboss-elasticsearch.version>6.0.2</bboss-elasticsearch.version>
+		<!-- 环境配置 -->
+		<java.version>1.8</java.version>
+		<java.encoding>UTF-8</java.encoding>
+		<project.build.sourceEncoding>${java.encoding}</project.build.sourceEncoding>
+		<productionMode>false</productionMode>
+		<!-- maven -->
+		<maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
+		<nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
+		<maven-release-plugin.version>2.3.2</maven-release-plugin.version>
+		<maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
+		<!-- 字节码|代理 -->
+		<javassist.version>3.12.1.GA</javassist.version>
+		<lombok.version>1.18.8</lombok.version>
+		<cglib-version>3.1</cglib-version>
+		<aspectjweaver.version>1.9.4</aspectjweaver.version>
+		<!-- 字段校验 -->
+		<hibernate-validator.version>6.0.17.Final</hibernate-validator.version>
+		<!-- 超级工具类 -->
+		<hutool-all.version>5.8.20</hutool-all.version>
+		<bcprov.version>1.68</bcprov.version>
+		<commons-pool2.version>2.6.2</commons-pool2.version>
+		<commons-net.version>3.6</commons-net.version>
+		<poi-version>4.1.2</poi-version>
+		<com.vdurmont.version>4.0.0</com.vdurmont.version>
+		<hanlp.version>portable-1.7.2</hanlp.version>
+		<google.zxing.version>3.3.3</google.zxing.version>
+		<baidu.aip.version>4.12.0</baidu.aip.version>
+		<mp3spi.version>1.9.5.4</mp3spi.version>
+		<!-- mysql -->
+		<druid.version>1.1.18</druid.version>
+		<mybatis-plus.version>3.4.3</mybatis-plus.version>
+		<mybatis-plus-generator.version>3.4.1</mybatis-plus-generator.version>
+		<mybatis-plus-dynamic-datasource.version>3.4.1</mybatis-plus-dynamic-datasource.version>
+		<sharding-jdbc.version>4.1.1</sharding-jdbc.version>
+		<sharding-jdbc-core.version>5.2.0</sharding-jdbc-core.version>
+		<!-- json返回值 -->
+		<fastjson.version>1.2.58</fastjson.version>
+		<!-- 微信工具包 -->
+		<weixin-java-tools.version>4.0.0</weixin-java-tools.version>
+		<thoughtworks.version>1.4.17</thoughtworks.version>
+		<!-- shiro -->
+		<shiro.version>1.7.1</shiro.version>
+		<shiro.thymeleaf.version>2.0.0</shiro.thymeleaf.version>
+		<!-- 模板 -->
+		<apache.velocity.version>2.1</apache.velocity.version>
+		<!-- license -->
+		<truelicense.version>1.33</truelicense.version>
+	</properties>
+
+	<modules>
+		<module>easy-sdk-common/easy-sdk-common-core</module>
+		<module>easy-sdk-common/easy-sdk-common-extra</module>
+		<module>easy-sdk-common/easy-sdk-common-config</module>
+	</modules>
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- spring-cloud -->
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<!-- spring-cloud-alibaba -->
+			<dependency>
+				<groupId>com.alibaba.cloud</groupId>
+				<artifactId>spring-cloud-alibaba-dependencies</artifactId>
+				<version>${spring-cloud-alibaba.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<!-- bboss-elasticsearch: https://esdoc.bbossgroups.com -->
+			<dependency>
+				<groupId>com.bbossgroups.plugins</groupId>
+				<artifactId>bboss-elasticsearch-spring-boot-starter</artifactId>
+				<version>${bboss-elasticsearch.version}</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>slf4j-log4j12</artifactId>
+						<groupId>org.slf4j</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<!-- local -->
+			<dependency>
+				<groupId>io.github.swangeese</groupId>
+				<artifactId>easy-sdk-common-core</artifactId>
+				<version>${easy.sdk.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.github.swangeese</groupId>
+				<artifactId>easy-sdk-common-extra</artifactId>
+				<version>${easy.sdk.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.github.swangeese</groupId>
+				<artifactId>easy-sdk-common-config</artifactId>
+				<version>${easy.sdk.version}</version>
+			</dependency>
+			<!-- 字节码处理 -->
+			<dependency>
+				<groupId>javassist</groupId>
+				<artifactId>javassist</artifactId>
+				<version>${javassist.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cglib</groupId>
+				<artifactId>cglib</artifactId>
+				<version>${cglib-version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.aspectj</groupId>
+				<artifactId>aspectjweaver</artifactId>
+				<version>${aspectjweaver.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok</artifactId>
+				<version>${lombok.version}</version>
+			</dependency>
+			<!-- 校验 -->
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-validator</artifactId>
+				<version>${hibernate-validator.version}</version>
+			</dependency>
+			<!-- json处理 -->
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>fastjson</artifactId>
+				<version>${fastjson.version}</version>
+			</dependency>
+			<!-- Hutool超级工具类 http://hutool.mydoc.io/ -->
+			<dependency>
+				<groupId>cn.hutool</groupId>
+				<artifactId>hutool-all</artifactId>
+				<version>${hutool-all.version}</version>
+			</dependency>
+			<!-- 国密算法 -->
+			<dependency>
+				<groupId>org.bouncycastle</groupId>
+				<artifactId>bcprov-jdk15to18</artifactId>
+				<version>${bcprov.version}</version>
+			</dependency>
+			<!-- 基于Hutool-二维码生成和处理 -->
+			<dependency>
+				<groupId>com.google.zxing</groupId>
+				<artifactId>core</artifactId>
+				<version>${google.zxing.version}</version>
+			</dependency>
+			<!--基于Hutool-表情过滤 -->
+			<dependency>
+				<groupId>com.vdurmont</groupId>
+				<artifactId>emoji-java</artifactId>
+				<version>${com.vdurmont.version}</version>
+			</dependency>
+			<!-- 分词器 -->
+			<dependency>
+				<groupId>com.hankcs</groupId>
+				<artifactId>hanlp</artifactId>
+				<version>${hanlp.version}</version>
+			</dependency>
+			<!-- 微信工具类 -->
+			<dependency>
+				<groupId>com.github.binarywang</groupId>
+				<artifactId>weixin-java-common</artifactId>
+				<version>${weixin-java-tools.version}</version>
+			</dependency>
+			<!-- 小程序 -->
+			<dependency>
+				<groupId>com.github.binarywang</groupId>
+				<artifactId>weixin-java-miniapp</artifactId>
+				<version>${weixin-java-tools.version}</version>
+			</dependency>
+			<!-- 支付 -->
+			<dependency>
+				<groupId>com.github.binarywang</groupId>
+				<artifactId>weixin-java-pay</artifactId>
+				<version>${weixin-java-tools.version}</version>
+			</dependency>
+			<!-- 企业号/企业微信 -->
+			<dependency>
+				<groupId>com.github.binarywang</groupId>
+				<artifactId>weixin-java-cp</artifactId>
+				<version>${weixin-java-tools.version}</version>
+			</dependency>
+			<!-- 公众号（包括订阅号和服务号） -->
+			<dependency>
+				<groupId>com.github.binarywang</groupId>
+				<artifactId>weixin-java-mp</artifactId>
+				<version>${weixin-java-tools.version}</version>
+			</dependency>
+			<!-- 微信开放平台 -->
+			<dependency>
+				<groupId>com.github.binarywang</groupId>
+				<artifactId>weixin-java-open</artifactId>
+				<version>${weixin-java-tools.version}</version>
+			</dependency>
+			<!-- 微信处理-xstream -->
+			<dependency>
+				<groupId>com.thoughtworks.xstream</groupId>
+				<artifactId>xstream</artifactId>
+				<version>${thoughtworks.version}</version>
+			</dependency>
+			<!-- apache ftp支持 -->
+			<dependency>
+				<groupId>commons-net</groupId>
+				<artifactId>commons-net</artifactId>
+				<version>${commons-net.version}</version>
+			</dependency>
+			<!-- apache 连接池支持 -->
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-pool2</artifactId>
+				<version>${commons-pool2.version}</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
+			<dependency>
+				<groupId>org.apache.poi</groupId>
+				<artifactId>poi-ooxml</artifactId>
+				<version>${poi-version}</version>
+			</dependency>
+			<!-- druid -->
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>druid-spring-boot-starter</artifactId>
+				<version>${druid.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>druid</artifactId>
+				<version>${druid.version}</version>
+			</dependency>
+			<!-- mybatis-plus -->
+			<dependency>
+				<groupId>com.baomidou</groupId>
+				<artifactId>mybatis-plus-boot-starter</artifactId>
+				<version>${mybatis-plus.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.baomidou</groupId>
+				<artifactId>mybatis-plus-generator</artifactId>
+				<version>${mybatis-plus-generator.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.baomidou</groupId>
+				<artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+				<version>${mybatis-plus-dynamic-datasource.version}</version>
+			</dependency>
+			<!-- sharding4.1.1 分库分表 -->
+			<dependency>
+				<groupId>org.apache.shardingsphere</groupId>
+				<artifactId>sharding-jdbc-spring-boot-starter</artifactId>
+				<version>${sharding-jdbc.version}</version>
+			</dependency>
+			<!--shiro -->
+			<!-- https://mvnrepository.com/artifact/org.apache.shardingsphere/shardingsphere-jdbc-core-spring-boot-starter -->
+            <dependency>
+                <groupId>org.apache.shardingsphere</groupId>
+                <artifactId>shardingsphere-jdbc-core-spring-boot-starter</artifactId>
+                <version>${sharding-jdbc-core.version}</version>
+            </dependency>
+            <!-- 数据分片 -->
+            <dependency>
+                <groupId>org.apache.shardingsphere</groupId>
+                <artifactId>shardingsphere-sharding-spring-boot-starter</artifactId>
+                <version>${sharding-jdbc-core.version}</version>
+            </dependency>
+            <!-- 影子库 -->
+            <dependency>
+                <groupId>org.apache.shardingsphere</groupId>
+                <artifactId>shardingsphere-shadow-spring-boot-starter</artifactId>
+                <version>${sharding-jdbc-core.version}</version>
+            </dependency>
+            <!-- 数据发现 -->
+            <dependency>
+                <groupId>org.apache.shardingsphere</groupId>
+                <artifactId>shardingsphere-db-discovery-spring-boot-starter</artifactId>
+                <version>${sharding-jdbc-core.version}</version>
+            </dependency>
+            <!-- 数据加密 -->
+            <dependency>
+                <groupId>org.apache.shardingsphere</groupId>
+                <artifactId>shardingsphere-encrypt-spring-boot-starter</artifactId>
+                <version>${sharding-jdbc-core.version}</version>
+            </dependency>
+            <!-- 读写分离 -->
+            <dependency>
+                <groupId>org.apache.shardingsphere</groupId>
+                <artifactId>shardingsphere-readwrite-splitting-spring-boot-starter</artifactId>
+                <version>${sharding-jdbc-core.version}</version>
+            </dependency>
+            <!-- 基础设置 -->
+            <dependency>
+                <groupId>org.apache.shardingsphere</groupId>
+                <artifactId>shardingsphere-jdbc-spring-boot-starter-infra</artifactId>
+                <version>${sharding-jdbc-core.version}</version>
+            </dependency>
+            <!-- 分布式事务 -->
+            <dependency>
+                <groupId>org.apache.shardingsphere</groupId>
+                <artifactId>shardingsphere-jdbc-transaction-spring</artifactId>
+                <version>${sharding-jdbc-core.version}</version>
+            </dependency>
+            <!-- sql解析 -->
+            <dependency>
+                <groupId>org.apache.shardingsphere</groupId>
+                <artifactId>shardingsphere-parser-spring-boot-starter</artifactId>
+                <version>${sharding-jdbc-core.version}</version>
+            </dependency>
+			<dependency>
+				<groupId>org.apache.shiro</groupId>
+				<artifactId>shiro-core</artifactId>
+				<version>${shiro.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.shiro</groupId>
+				<artifactId>shiro-spring</artifactId>
+				<version>${shiro.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.shiro</groupId>
+				<artifactId>shiro-ehcache</artifactId>
+				<version>${shiro.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.theborakompanioni</groupId>
+				<artifactId>thymeleaf-extras-shiro</artifactId>
+				<version>${shiro.thymeleaf.version}</version>
+			</dependency>
+			<!--velocity代码生成使用模板 -->
+			<dependency>
+				<groupId>org.apache.velocity</groupId>
+				<artifactId>velocity-engine-core</artifactId>
+				<version>${apache.velocity.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>de.schlichtherle.truelicense</groupId>
+				<artifactId>truelicense-core</artifactId>
+				<version>${truelicense.version}</version>
+			</dependency>
+			<!-- ai -->
+			<dependency>
+				<groupId>com.googlecode.soundlibs</groupId>
+				<artifactId>mp3spi</artifactId>
+				<version>${mp3spi.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.baidu.aip</groupId>
+				<artifactId>java-sdk</artifactId>
+				<version>${baidu.aip.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>slf4j-api</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>slf4j-simple</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+
+	<!-- 参考 ：https://blog.csdn.net/z69183787/article/details/81981423 -->
+	<profiles>
+		<profile>
+			<id>disable-javadoc-doclint</id>
+			<activation>
+				<jdk>[1.8,)</jdk>
+			</activation>
+			<!-- java8版本导致javadoc打包编译失败时候，添加 -->
+			<properties>
+				<javadoc.opts>-Xdoclint:none</javadoc.opts>
+			</properties>
+		</profile>
+		<!-- 命令：mvn clean install deploy -P release -Dgpg.passphrase=生成秘钥时候你的密码 -->
+		<profile>
+			<id>release</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>attach-sources</id>
+								<goals>
+									<goal>jar-no-fork</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>attach-javadocs</id>
+								<phase>package</phase>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+								<!-- java8版本导致javadoc打包编译失败时候，添加 -->
+								<!--<configuration>
+									<additionalparam>${javadoc.opts}</additionalparam>
+								</configuration>-->
+							</execution>
+						</executions>
+					</plugin>
+					<!--<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>${maven-gpg-plugin.version}</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>-->
+					<plugin>
+						<groupId>org.sonatype.plugins</groupId>
+						<artifactId>nexus-staging-maven-plugin</artifactId>
+						<version>${nexus-staging-maven-plugin.version}</version>
+						<extensions>true</extensions>
+						<configuration>
+							<serverId>oss</serverId>
+							<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+							<autoReleaseAfterClose>true</autoReleaseAfterClose>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-release-plugin</artifactId>
+						<version>${maven-release-plugin.version}</version>
+						<configuration>
+							<autoVersionSubmodules>true</autoVersionSubmodules>
+							<useReleaseProfile>false</useReleaseProfile>
+							<releaseProfiles>release</releaseProfiles>
+							<goals>deploy</goals>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<scm>
+		<tag>master</tag>
+		<url>git@github.com:swan-geese/easy-sdk.git</url>
+		<connection>scm:git:git@github.com:swan-geese/easy-sdk.git</connection>
+		<developerConnection>scm:git:git@github.com:swan-geese/easy-sdk.git</developerConnection>
+	</scm>
+
+	<developers>
+		<developer>
+			<name>swan-geese</name>
+			<email>243296375@qq.com</email>
+		</developer>
+	</developers>
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>oss</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+		</snapshotRepository>
+		<repository>
+			<id>oss</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
+</project>

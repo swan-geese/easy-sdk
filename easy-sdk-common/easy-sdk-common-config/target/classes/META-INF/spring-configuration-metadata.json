@@ -1,0 +1,126 @@
+{
+  "groups": [
+    {
+      "name": "easy.sdk.auth",
+      "type": "com.easy.sdk.common.config.auth.core.AuthUserPerm",
+      "sourceType": "com.easy.sdk.common.config.auth.config.AuthUserConfig",
+      "sourceMethod": "authUserPerm()"
+    },
+    {
+      "name": "spring.redis.dynamic",
+      "type": "com.easy.sdk.common.config.redis.annotation.RedisDynamicConfig",
+      "sourceType": "com.easy.sdk.common.config.redis.annotation.RedisDynamicConfig"
+    },
+    {
+      "name": "thread.pool.async",
+      "type": "org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor",
+      "sourceType": "com.easy.sdk.common.config.thread.ThreadPoolConfig",
+      "sourceMethod": "threadPoolTaskExecutor()"
+    }
+  ],
+  "properties": [
+    {
+      "name": "easy.sdk.auth.error-perm",
+      "type": "java.util.Set<?>",
+      "sourceType": "com.easy.sdk.common.config.auth.core.AuthUserPerm"
+    },
+    {
+      "name": "easy.sdk.auth.perm",
+      "type": "java.lang.String",
+      "description": "用户权限接口类",
+      "sourceType": "com.easy.sdk.common.config.auth.core.AuthUserPerm"
+    },
+    {
+      "name": "easy.sdk.auth.perm-class",
+      "type": "java.lang.Class<?>",
+      "sourceType": "com.easy.sdk.common.config.auth.core.AuthUserPerm"
+    },
+    {
+      "name": "easy.sdk.auth.perm-map",
+      "type": "java.util.Map<java.lang.String,java.lang.Integer>",
+      "sourceType": "com.easy.sdk.common.config.auth.core.AuthUserPerm"
+    },
+    {
+      "name": "easy.sdk.auth.resolver-type",
+      "type": "java.lang.Integer",
+      "description": "token 获取类型",
+      "sourceType": "com.easy.sdk.common.config.auth.core.AuthUserPerm"
+    },
+    {
+      "name": "easy.sdk.auth.status",
+      "type": "java.lang.String",
+      "description": "用户状态 枚举",
+      "sourceType": "com.easy.sdk.common.config.auth.core.AuthUserPerm"
+    },
+    {
+      "name": "easy.sdk.auth.status-map",
+      "type": "java.util.Map<java.lang.Object,java.lang.String>",
+      "sourceType": "com.easy.sdk.common.config.auth.core.AuthUserPerm"
+    },
+    {
+      "name": "easy.sdk.auth.type",
+      "type": "java.lang.String",
+      "description": "用户类型 枚举",
+      "sourceType": "com.easy.sdk.common.config.auth.core.AuthUserPerm"
+    },
+    {
+      "name": "easy.sdk.auth.type-map",
+      "type": "java.util.Map<java.lang.Object,java.lang.String>",
+      "sourceType": "com.easy.sdk.common.config.auth.core.AuthUserPerm"
+    },
+    {
+      "name": "spring.redis.dynamic.autowired",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.easy.sdk.common.config.redis.annotation.RedisDynamicConfig",
+      "defaultValue": false
+    },
+    {
+      "name": "spring.redis.dynamic.datasource",
+      "type": "java.util.Map<java.lang.String,org.springframework.boot.autoconfigure.data.redis.RedisProperties>",
+      "description": "lettuce 实现",
+      "sourceType": "com.easy.sdk.common.config.redis.annotation.RedisDynamicConfig"
+    },
+    {
+      "name": "spring.redis.dynamic.primary",
+      "type": "java.lang.String",
+      "sourceType": "com.easy.sdk.common.config.redis.annotation.RedisDynamicConfig",
+      "defaultValue": "master"
+    },
+    {
+      "name": "thread.pool.async.core-pool-size",
+      "type": "java.lang.Integer",
+      "sourceType": "org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor"
+    },
+    {
+      "name": "thread.pool.async.daemon",
+      "type": "java.lang.Boolean",
+      "sourceType": "org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor"
+    },
+    {
+      "name": "thread.pool.async.keep-alive-seconds",
+      "type": "java.lang.Integer",
+      "sourceType": "org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor"
+    },
+    {
+      "name": "thread.pool.async.max-pool-size",
+      "type": "java.lang.Integer",
+      "sourceType": "org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor"
+    },
+    {
+      "name": "thread.pool.async.thread-group",
+      "type": "java.lang.ThreadGroup",
+      "sourceType": "org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor"
+    },
+    {
+      "name": "thread.pool.async.thread-name-prefix",
+      "type": "java.lang.String",
+      "sourceType": "org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor"
+    },
+    {
+      "name": "thread.pool.async.thread-priority",
+      "type": "java.lang.Integer",
+      "sourceType": "org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor"
+    }
+  ],
+  "hints": []
+}
