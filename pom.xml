@@ -110,17 +110,17 @@
 			</dependency>
 			<!-- local -->
 			<dependency>
-				<groupId>io.github.swangeese</groupId>
+				<groupId>io.github.swan-geese</groupId>
 				<artifactId>easy-sdk-common-core</artifactId>
 				<version>${easy.sdk.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>io.github.swangeese</groupId>
+				<groupId>io.github.swan-geese</groupId>
 				<artifactId>easy-sdk-common-extra</artifactId>
 				<version>${easy.sdk.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>io.github.swangeese</groupId>
+				<groupId>io.github.swan-geese</groupId>
 				<artifactId>easy-sdk-common-config</artifactId>
 				<version>${easy.sdk.version}</version>
 			</dependency>
