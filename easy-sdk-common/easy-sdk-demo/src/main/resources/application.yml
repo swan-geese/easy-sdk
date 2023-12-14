@@ -1,0 +1,74 @@
+logging:
+  config: classpath:spring-logback.xml
+server:
+  port: 8080
+
+
+easy:
+  sdk:
+    ftp:
+      config:
+        local: true #是否本地文件
+        color: '#fffb0d' #水印颜色
+        x: 0 #水印位置
+        y: 0 #水印位置
+        font-size: 50 #字体大小
+        alpha: 0.8 #透明度
+#        username: #用户名
+#        password: #密码
+#        host: #主机
+#        port: #端口
+#        path: #文件夹根目录
+#        logo: #文字水印
+    feign:
+      request:
+        read-timeout: 120
+        connect-timeout: 120
+        write-timeout: 120
+        keep-alive-duration: 5 #分钟
+        max-idle-connections: 10
+    sign:
+      order: 11 #比【接口参数解密】要靠后一些执行
+      proxy-target-class: true  #CGLib动态代理织入增强
+      interceptor-names: signInterceptor   #拦截器的@Bean(name=) 默认已实现
+      sign-type: MD5 #签名方式 MD5|SHA1|SHA256
+      timeout: 3600 #超时时间默认60秒
+    crypto:
+      charset: UTF-8  #编码方式
+      order: 1  #切面的执行顺序，1为第一
+      proxy-target-class: true  #CGLib动态代理织入增强
+      interceptor-names: cryptoInterceptor #拦截器的@Bean(name=) 默认已实现
+      keys: #针对前端参数的不同加密方式进行配置
+        DES: #对称加密
+          secret-key: 0d850b5500d11b0c #密钥
+        RSA: #非对称加密
+          private-key: MIICeAIBADANBgkqhkiG9w0BAQEFAASCAmIwggJeAgEAAoGBAKrM2QZMpHlQnHej5YRFERKx6Pnn2Ge4ncfJI0bKydhajDFcos72zFtupngnm5FJ0+UzBspyiLYRSZswS5AwMfKmRTqJ5yW0g4+VmC6usWjedMjNXPPGWy/D4UL3SdkXh2apjjuLRiDDKbqfKQJZG1fvUDZrZOER3x7IRvH/7TYRAgMBAAECgYAfOSBpXuRoSvy3gE4qTmfvF3fkC2aLm3u4dIQO4m5grzjWoz0eAY7dHg6vg2oUdr8WNKxGoQZt5h4jEQKXQsA2c4HPupgKSJPRPOv5vB9uwYT6C5QfhhsrGAxf8BNbPrE38lN6sTXT8+OV0jKkB0RslhFqB9ZQUXWOde+Qj3SSOQJBANf9iQYQPxR6Ly/hOBXBALoztTvuBWNvFUJCqfE2nZuayIJsgd/oun7ehJk9PH+XgxxDl8P70jHvl6/p0vetLfUCQQDKcFoOvJwv36CXsKVKNHS6ejPaov4F3vf10daxaJoBL9wu8X9G8fqRL5lYs5+aUehzfchpldIkEgR476cahFotAkEAmOM4ePhLDn2mpSexAYUKtMMhSHili8r3q11w2fOlAJ5BzEBudkZQrLlp9uanylE/V2RpKys3kG1eXAEReow1eQJBAIwmlHK3aXpLXCcoiIaDIn0ntVacmTj/ULPC/tv8CwLfW5S0ZOV9CXgSeBvM36Y7Jq8uWd2fd8i5IJeJcysMjlECQQCCJVBPQBomYHch43LLYwgS1xtM56alDtgeq8Cx5aQxM9EZzFIcY96zcUYIt/VdOLlYyH/KzUq9wpmgmd0NDoQn
+          public-key: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCqzNkGTKR5UJx3o+WERRESsej559hnuJ3HySNGysnYWowxXKLO9sxbbqZ4J5uRSdPlMwbKcoi2EUmbMEuQMDHypkU6iecltIOPlZgurrFo3nTIzVzzxlsvw+FC90nZF4dmqY47i0Ygwym6nykCWRtX71A2a2ThEd8eyEbx/+02EQIDAQAB
+spring:
+  resources:
+    static-locations: file:/path/static/
+  secret:
+    enabled: true
+    annotation-class: com.easy.sdk.common.web.crypto.SecretBody
+    type: AES
+    key: A012345678912345
+
+feign:
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
+    connect-timeout: 10000
+    read-timeout: 10000
+    write-timeout: 10000
+    max-requests: 64
+    max-requests-per-host: 5
+    follow-redirects: true
+    retry-on-connection-failure: true
+    connection-pool:
+      enabled: true
+      max-idle-connections: 5
+      keep-alive-duration: 5
+      max-requests: 64
+      max-requests-per-host: 5
+
