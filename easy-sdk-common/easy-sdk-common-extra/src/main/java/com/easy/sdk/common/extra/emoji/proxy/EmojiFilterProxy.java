@@ -28,7 +28,12 @@ import cn.hutool.json.JSONUtil;
 public class EmojiFilterProxy implements BaseProxy {
 
 	// 环绕拦截
-	@Around(value = "@annotation(org.springframework.web.bind.annotation.RequestMapping)")
+	@Override
+	@Around(value = "@annotation(org.springframework.web.bind.annotation.RequestMapping) " +
+			"|| @annotation(org.springframework.web.bind.annotation.GetMapping) " +
+			"|| @annotation(org.springframework.web.bind.annotation.PostMapping) " +
+			"|| @annotation(org.springframework.web.bind.annotation.PutMapping) " +
+			"|| @annotation(org.springframework.web.bind.annotation.DeleteMapping)")
 	public Object around(ProceedingJoinPoint pdj) throws Throwable {
 		Method method = this.getMethod(pdj);
 		// 获取method 中的注解

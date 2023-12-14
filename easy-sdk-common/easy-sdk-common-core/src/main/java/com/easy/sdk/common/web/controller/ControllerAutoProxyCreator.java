@@ -20,6 +20,7 @@ import cn.hutool.core.annotation.AnnotationUtil;
 @SuppressWarnings("serial")
 public class ControllerAutoProxyCreator extends AbstractAutoProxyCreator {
 
+	@Override
 	@Nullable
 	protected Object[] getAdvicesAndAdvisorsForBean(Class<?> beanClass, String beanName,
 			@Nullable TargetSource targetSource) {

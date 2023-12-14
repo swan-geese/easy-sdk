@@ -20,6 +20,7 @@ public class FeignFallbackProxy implements BaseProxy {
 	/**
 	 * feign异步调用拦截
 	 */
+	@Override
 	@Around(value = "@annotation(com.easy.sdk.common.extra.feign.annotation.FeignFallback)")
 	public Object around(ProceedingJoinPoint pdj) throws Exception {
 		Object obj = null;

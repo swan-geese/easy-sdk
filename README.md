@@ -33,7 +33,7 @@ easy-sdk: springboot 拓展工具包
 #### easy-sdk 提供以下功能
 
    * [package-包结构](#-package-%E5%8C%85%E7%BB%93%E6%9E%84)
-   * cloud-common-core  
+   * easy-sdk-common-core  
        * [递归树](#-%E9%80%92%E5%BD%92%E6%A0%91)
        * [透明背景验证码](#-%E9%80%8F%E6%98%8E%E8%83%8C%E6%99%AF%E9%AA%8C%E8%AF%81%E7%A0%81)
        * [Spring-核心配置](#-Spring-%E6%A0%B8%E5%BF%83%E9%85%8D%E7%BD%AE)
@@ -43,7 +43,7 @@ easy-sdk: springboot 拓展工具包
        * [接口参数签名](#-%E6%8E%A5%E5%8F%A3%E5%8F%82%E6%95%B0%E7%AD%BE%E5%90%8D)
        * [web](#-web)
        * [新建一个web项目](#-%E6%96%B0%E5%BB%BA%E4%B8%80%E4%B8%AAweb%E9%A1%B9%E7%9B%AE)
-   * cloud-common-extra  
+   * easy-sdk-common-extra  
        * [接口访问控制](#-%E6%8E%A5%E5%8F%A3%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6)
        * [表情过滤](#-%E8%A1%A8%E6%83%85%E8%BF%87%E6%BB%A4)
        * [feign微服务接口调用](#-feign%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%8E%A5%E5%8F%A3%E8%B0%83%E7%94%A8)
@@ -59,7 +59,7 @@ easy-sdk: springboot 拓展工具包
        * [微信小程序](#-%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F)
        * [微信支付](#-%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98)
        * [XSS-跨站点脚本编制](#-XSS)
-   * cloud-common-config  
+   * easy-sdk-common-config  
        * [接口权限校验](#-%E6%8E%A5%E5%8F%A3%E6%9D%83%E9%99%90%E6%A0%A1%E9%AA%8C)
        * [跨域访问](#-%E8%B7%A8%E5%9F%9F%E8%AE%BF%E9%97%AE)
        * [cron-定时器](#-cron-%E5%AE%9A%E6%97%B6%E5%99%A8)
@@ -73,9 +73,9 @@ easy-sdk: springboot 拓展工具包
 
 ```
 <dependency>
-	<groupId>io.github.swangeese</groupId>
+	<groupId>io.github.swan-geese</groupId>
 	<artifactId>easy-sdk-parent</artifactId>
-	<version>1.0.9</version>
+	<version>2.0.0</version>
 </dependency>
 ```
 
@@ -83,9 +83,9 @@ easy-sdk: springboot 拓展工具包
 
 ```
 <dependency>
-	<groupId>io.github.swangeese</groupId>
+	<groupId>io.github.swan-geese</groupId>
 	<artifactId>easy-sdk-common-core</artifactId>
-	<version>1.0.9</version>
+	<version>2.0.0</version>
 </dependency>
 ```
 
@@ -93,18 +93,18 @@ easy-sdk: springboot 拓展工具包
 
 ```
 <dependency>
-	<groupId>io.github.swangeese</groupId>
+	<groupId>io.github.swan-geese</groupId>
 	<artifactId>easy-sdk-common-extra</artifactId>
-	<version>1.0.9</version>
+	<version>2.0.0</version>
 </dependency>
 ```
 **config 注解和配置↑** 
 
 ```
 <dependency>
-	<groupId>io.github.swangeese</groupId>
+	<groupId>io.github.swan-geese</groupId>
 	<artifactId>easy-sdk-common-config</artifactId>
-	<version>1.0.9</version>
+	<version>2.0.0</version>
 </dependency>
 ```
 	
@@ -117,19 +117,20 @@ easy-sdk 几乎所有功能都采取插件化处理，以注解和配置文件�
 	1.easy-sdk-common-core
 		│
 		└─easy.sdk.common   		 
-		 	├─annotation 		//注解，递归树，参数解析
-		 	├─base 	 		//接口工具，一些默认的公共方法
-		 	├─constant 		//常量和枚举，返回码，错误信息
-		 	├─core 			//核心包，Application，SpringUtil
-		 	├─entity 		//公共实体类，Response，Tree
-		 	├─exception 		//异常类，BusinessException
-		 	├─util			//工具类，透明背景验证码，权限（2的权的和）校验，EntityUtil递归树，list转换
-		 	└─web			//web（全局参数校验，controller拦截，全局异常，核心，健康检查，资源访问，参数解析等）
-		 	  ├─annotation		//注解 application crypto exception sign valid web
-		 	  ├─config 		//配置 application controller crypto sign valid web
-		 	  ├─controller 		//controller 代理-> 执行时间统计，健康检查，返回值处理等
-		 	  ├─crypto 		//接口参数解密
-		 	  └─sign	//接口参数签名
+		 	├─annotation        //注解，递归树，参数解析
+		 	├─apmagent          //byte-buddy 利用插桩技术，实现方法执行时间统计 && 全链路ID追踪
+		 	├─base              //接口工具，一些默认的公共方法
+		 	├─constant          //常量和枚举，返回码，错误信息
+		 	├─core              //核心包，Application，SpringUtil
+		 	├─entity            //公共实体类，Response，Tree
+		 	├─exception         //异常类，BusinessException
+		 	├─util              //工具类，透明背景验证码，权限（2的权的和）校验，EntityUtil递归树，list转换
+		 	└─web               //web（全局参数校验，controller拦截，全局异常，核心，健康检查，资源访问，参数解析等）
+		 	  ├─annotation      //注解 application crypto exception sign valid web
+		 	  ├─config          //配置 application controller crypto sign valid web
+		 	  ├─controller      //controller 代理-> 执行时间统计，健康检查，返回值处理等
+		 	  ├─crypto          //接口参数解密
+		 	  └─sign            //接口参数签名
 		 
 	2.easy-sdk-common-extra 
 		│
@@ -268,10 +269,10 @@ log.info("[验证码: {}]", code);
 ### > Spring-核心配置
 
 ```java
-@EnableCore
+@EnableSpring
 ```
 - 说明
-  * 在启动类增加@EnableCore  
+  * 在启动类增加@EnableSpring  
   * 可使用全局 SpringContextUtil 处理相关bean 
   * 可实现接口 [IApplicationRestart] 做一些容器启动后的相关操作 
       
@@ -375,17 +376,44 @@ easy:
 - 说明
   * 在启动类增加@EnableSign  
   * 使用方式：  
-      - 服务端：在method-> 参数前前添加注解 @Sign
+      - 服务端：在 method 上 || method 参数前 添加注解 @Sign
       - 前端：在header中添加请求头(http请求)
       - Sign：参数签名为对Map参数按照key的顺序排序后拼接为字符串，然后根据提供的签名算法生成签名字符串 {k}{v}{k}{v}{k}{v}...（包含：Timestamp{时间戳毫秒数}）
       - Timestamp：当前时间的毫秒数 
       - 注：可用于简单值类型的参数或Bean中 简单值类型的属性以及Map接收的简单值参数
       - 范围：String等简单值类型  Map<String,Object> Bean(简单值 字段)
-      
-     
+
+### > apm 插桩技术实现全链路ID
+```text
+add vm option: -javaagent:xxx/easy-sdk-common-core-2.0.0.jar
+
+```
+
+- 说明
+    * 将 easy-sdk-common-core 进行 package 打包
+    * 在应用项目中增加启动参数：vm option: -javaagent:xxx/easy-sdk-common-core-2.0.0.jar
+    * 运行项目，查看日志，会打印出全链路ID
+
+### > 健康检查
+```java
+@EnableHealth
+
+```
+- 说明
+    * 在启动类增加@EnableHealth
+    * 接口调用 /health/core
+        - 默认集成健康检查：HealthController [/health/core]
+        - ip: 主机地址
+        - macAddress:  物理地址
+        - threadCount: 线程数
+        - freeMemory: 剩余可用内存
+        - totalMemory: 总内存
+        - useMemory: 已经使用内存
+        - useRate: 使用比率
+
+
       
 ### > web
-
 ```java
 @EnableWeb
 
@@ -395,10 +423,13 @@ easy:
     static-locations: file:/path/static/
 
 ```
+
+
 - 说明
   * 在启动类增加@EnableWeb  
       - 默认集成@EnableValidator
-      - 默认集成@EnableCore
+      - 默认集成@EnableSpring
+      - 默认集成@EnableHealth
       - 默认集成AOP->参数拦截器->ConvertInterceptor
       - 默认集成健康检查：HealthController [/health/core]
           - ip: 主机地址
@@ -446,7 +477,7 @@ spring:
 <parent>
 	<groupId>io.github.swangeese</groupId>
 	<artifactId>easy-sdk-parent</artifactId>
-	<version>1.0.9</version>
+	<version>2.0.0</version>
 </parent>
 <dependencies>
 	<dependency>

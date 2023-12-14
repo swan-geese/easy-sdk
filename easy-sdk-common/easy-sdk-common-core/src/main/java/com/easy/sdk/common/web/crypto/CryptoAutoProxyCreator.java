@@ -20,6 +20,7 @@ import cn.hutool.core.util.ReflectUtil;
 @SuppressWarnings("serial")
 public class CryptoAutoProxyCreator extends AbstractAutoProxyCreator {
 
+	@Override
 	@Nullable
 	protected Object[] getAdvicesAndAdvisorsForBean(Class<?> beanClass, String beanName,
 			@Nullable TargetSource targetSource) {

@@ -31,6 +31,7 @@ import com.easy.sdk.common.web.config.WebMvcConfig;
 })
 @EnableSpring // 核心配置
 @EnableValidator // 参数校验
+@EnableHealth // 健康检查
 public @interface EnableWeb {
 
 }

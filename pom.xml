@@ -70,6 +70,11 @@
 		<apache.velocity.version>2.1</apache.velocity.version>
 		<!-- license -->
 		<truelicense.version>1.33</truelicense.version>
+		<!-- apm agent -->
+		<byte-buddy.version>1.10.9</byte-buddy.version>
+		<httpclient.version>4.5.14</httpclient.version>
+		<okhttp.version>4.9.1</okhttp.version>
+		<spring-boot.version>2.3.12.RELEASE</spring-boot.version>
 	</properties>
 
 	<modules>
@@ -387,6 +392,41 @@
 					</exclusion>
 				</exclusions>
 			</dependency>
+
+
+
+
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+			</dependency>
+			<dependency>
+				<groupId>net.bytebuddy</groupId>
+				<artifactId>byte-buddy</artifactId>
+				<version>${byte-buddy.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.bytebuddy</groupId>
+				<artifactId>byte-buddy-agent</artifactId>
+				<version>${byte-buddy.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpclient</artifactId>
+				<version>${httpclient.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-jdbc</artifactId>
+				<version>${spring-boot.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.squareup.okhttp3</groupId>
+				<artifactId>okhttp</artifactId>
+				<version>${okhttp.version}</version>
+			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 

@@ -7,39 +7,30 @@ import java.util.stream.Collectors;
 
 import com.easy.sdk.common.core.ApplicationOperation;
 import com.easy.sdk.common.core.WebMvcConfiguration;
-import com.easy.sdk.common.web.controller.HealthController;
 import com.easy.sdk.common.web.controller.JsonHttpMessageConverter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.web.ResourceProperties;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
-
 import com.easy.sdk.common.annotation.ArgumentAnnotation;
-
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
+import javax.annotation.Resource;
 
 @Slf4j
 @Configuration
 @ConditionalOnMissingBean(WebMvcConfiguration.class)
 public class WebMvcConfig extends WebMvcConfigurationSupport {
 
-	@Autowired
+	@Resource
 	private ResourceProperties resourceProperties;
-
-	@Bean
-	public HealthController healthController() {
-		return new HealthController();
-	}
 
 	@Override
 	protected void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {

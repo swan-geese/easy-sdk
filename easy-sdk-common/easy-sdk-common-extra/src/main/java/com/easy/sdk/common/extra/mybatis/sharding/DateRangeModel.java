@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.enums.SqlKeyword;
 
 import cn.hutool.core.collection.CollUtil;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 /**
@@ -16,8 +17,9 @@ import lombok.experimental.Accessors;
  * @since 2022年5月18日
  * @version 1.0.0
  */
-@Data(staticConstructor = "of")
+@Data
 @Accessors(chain = true)
+@NoArgsConstructor(staticName = "of")
 public class DateRangeModel {
 
 	private SqlKeyword keyword;

@@ -17,7 +17,7 @@ import java.lang.annotation.Target;
  * @since 2019年12月8日
  * @version 1.0.8
  */
-@Target({ ElementType.FIELD, ElementType.PARAMETER })
+@Target({ ElementType.FIELD, ElementType.PARAMETER, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited

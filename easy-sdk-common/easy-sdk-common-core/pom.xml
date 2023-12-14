@@ -16,6 +16,10 @@
 	<url>https://github.com/swan-geese/easy-sdk</url>
 	<description>springboot-自定义核心工具包</description>
 
+	<properties>
+		<maven.configuration.manifestFile>src/main/resources/META-INF/MANIFEST.MF</maven.configuration.manifestFile>
+	</properties>
+
 	<dependencies>
 		<!-- Hutool超级工具类 http://hutool.mydoc.io/ -->
 		<dependency>
@@ -69,5 +73,76 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
 		</dependency>
+
+
+		<dependency>
+			<groupId>net.bytebuddy</groupId>
+			<artifactId>byte-buddy</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>net.bytebuddy</groupId>
+			<artifactId>byte-buddy-agent</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<optional>true</optional>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
+			<optional>true</optional>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.squareup.okhttp3</groupId>
+			<artifactId>okhttp</artifactId>
+			<optional>true</optional>
+			<scope>provided</scope>
+		</dependency>
+
 	</dependencies>
+
+
+	<build>
+		<plugins>
+			<!-- 将byte-buddy打包到Agent中 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<artifactSet>
+						<includes>
+							<include>net.bytebuddy:byte-buddy:jar:</include>
+							<include>net.bytebuddy:byte-buddy-agent:jar:</include>
+						</includes>
+					</artifactSet>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<archive>
+						<manifestFile>${maven.configuration.manifestFile}</manifestFile>
+					</archive>
+				</configuration>
+			</plugin>
+
+		</plugins>
+	</build>
+
 </project>

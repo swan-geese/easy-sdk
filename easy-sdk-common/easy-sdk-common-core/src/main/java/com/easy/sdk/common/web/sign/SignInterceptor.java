@@ -41,6 +41,7 @@ public class SignInterceptor implements MethodInterceptor, BaseHttpServlet, Orde
 	public Object invoke(MethodInvocation invocation) throws Throwable {
 		Object[] args = invocation.getArguments();
 		Method method = invocation.getMethod();
+
 		// 判断是否需要验签
 		boolean needSign = this.needSign(method);
 		if (needSign) {
@@ -71,8 +72,7 @@ public class SignInterceptor implements MethodInterceptor, BaseHttpServlet, Orde
 	 * @param sign      请求头带过来的签名
 	 * @param timestamp 时间戳
 	 */
-	protected void checkSign(Map<String, Object> signMap, String sign, Long timestamp) {
-		SignTypeEnum type = SignTypeEnum.getByType(config.getSignType());
+	protected void checkSign(Map<String, Object> signMap, String sign, Long timestamp) {SignTypeEnum type = SignTypeEnum.getByType(config.getSignType());
 		String otherParams = StrUtil.format("{}{}", Sign.TIMESTAMP, timestamp);
 		String signResult = null;
 		switch (type) {
@@ -99,6 +99,9 @@ public class SignInterceptor implements MethodInterceptor, BaseHttpServlet, Orde
 	 */
 	protected boolean needSign(Method method) {
 		Parameter[] parameters = method.getParameters();
+		if (method.isAnnotationPresent(Sign.class)) {
+			return true;
+		}
 		if (ArrayUtil.isNotEmpty(parameters)) {
 			for (Parameter parameter : parameters) {
 				if (parameter.isAnnotationPresent(Sign.class)) {
@@ -121,7 +124,7 @@ public class SignInterceptor implements MethodInterceptor, BaseHttpServlet, Orde
 		Map<String, Object> signMap = MapUtil.newHashMap();
 		for (int i = 0; i < parameters.length; i++) {
 			Parameter parameter = parameters[i];
-			if (parameter.isAnnotationPresent(Sign.class)) {
+//			if (parameter.isAnnotationPresent(Sign.class)) {
 				Object arg = args[i];
 				// 简单值类型
 				if (ClassUtil.isSimpleValueType(parameter.getType())) {
@@ -154,7 +157,7 @@ public class SignInterceptor implements MethodInterceptor, BaseHttpServlet, Orde
 				}
 				// 其他------------------------------------------------------
 				this.buildSignMapOthers(parameter, arg, signMap);
-			}
+//			}
 		}
 		return signMap;
 	}

@@ -30,16 +30,25 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AccessLimitProxy implements BaseProxy, InitializingBean {
 	/**
-	 * 定时缓存 
+	 * 定时缓存
 	 */
 	private final TimedCache<String, Integer> accessLimitCache = CacheUtil.newTimedCache(AccessLimit.DEFAULT_TIME);
 
 	// 环绕拦截
-	@Around(value = "@annotation(org.springframework.web.bind.annotation.RequestMapping)")
+	@Override
+	@Around(value = "@annotation(org.springframework.web.bind.annotation.RequestMapping) " +
+			"|| @annotation(org.springframework.web.bind.annotation.GetMapping) " +
+			"|| @annotation(org.springframework.web.bind.annotation.PostMapping) " +
+			"|| @annotation(org.springframework.web.bind.annotation.PutMapping) " +
+			"|| @annotation(org.springframework.web.bind.annotation.DeleteMapping)")
 	public Object around(ProceedingJoinPoint pdj) throws Throwable {
 		// 获取method 中的注解
 		Method method = this.getMethod(pdj);
 		AccessLimit access = method.getAnnotation(AccessLimit.class);
+		//method 上未添加 @AccessLimit 注解，则不处理
+		if (ObjectUtil.isNull(access)) {
+			return pdj.proceed();
+		}
 		//
 		HttpServletRequest request = this.getRequest();
 		// 获取key=ip+port+url
@@ -47,35 +56,40 @@ public class AccessLimitProxy implements BaseProxy, InitializingBean {
 		String key = StrUtil.format("{}:{}@{}", ip, request.getRemotePort(), request.getRequestURI());
 
 		Integer val = null;
-		//
-		long timeout = ObjectUtil.isNull(access) ? AccessLimit.DEFAULT_TIME : access.timeout();
-		//
-		boolean check = ObjectUtil.isNull(access) || access.enable();
-		if (check) { // 开始校验
-			val = accessLimitCache.get(key, false);
-			log.info("[access:key={},count={}]", key, ObjectUtil.isNull(val) ? 0 : val);
-			int count = ObjectUtil.isNull(access) ? AccessLimit.DEFAULT_COUNT : access.count();
-			if (val != null && val >= count) {
-				throw new BusinessException("HTTP请求超出设定的限制");
-			}
-		}
-		// 执行
+
+		// 拦截持续时间
+		long timeout = ObjectUtil.isNull(access.timeout()) ? AccessLimit.DEFAULT_TIME : access.timeout();
+		// 是否可用，false，此注解将无效。
+		boolean check = access.enable();
 		try {
+			if (check) { // 开始校验
+				val = accessLimitCache.get(key, false);
+				log.info("[access:key={},count={}]", key, ObjectUtil.isNull(val) ? 0 : val);
+				// 最大出错次数
+				int count = ObjectUtil.isNull(access.count()) ? AccessLimit.DEFAULT_COUNT : access.count();
+				if (val != null && val >= count) {
+					throw new BusinessException("HTTP请求超出设定的限制");
+				}
+			}
+			// 执行
 			return pdj.proceed();
 		} catch (Throwable e) {
+			log.error("AccessLimitProxy proceed error:", e);
+			throw e;
+		} finally {
 			if (check) {
 				// 异常记录+1
 				accessLimitCache.put(key, ObjectUtil.isNull(val) ? 1 : val + 1, timeout);
 			}
-			throw e;
 		}
 	}
 
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		// 初始化设置扫描时间
-		accessLimitCache.schedulePrune(AccessLimit.DEFAULT_TIME);
+		@Override
+		public void afterPropertiesSet() throws Exception {
+			// 初始化设置扫描时间
+			//启动定时任务，每 DEFAULT_TIME 毫秒检查一次过期
+			accessLimitCache.schedulePrune(AccessLimit.DEFAULT_TIME);
 
-	}
+		}
 
 }

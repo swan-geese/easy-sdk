@@ -25,7 +25,7 @@ public class CryptoController {
 
 	@RequestMapping("/key/{type}")
 	public Response<String> key(@PathVariable String type) {
-		CryptoConfig.CryptoKey key = cryptoConfig.getKeys().get(type);
+		CryptoConfig.CryptoKey key = cryptoConfig.getKeys().get(type.toUpperCase());
 		if (key == null) {
 			return Response.error("no config");
 		}

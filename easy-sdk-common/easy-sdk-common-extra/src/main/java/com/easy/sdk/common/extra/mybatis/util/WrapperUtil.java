@@ -77,7 +77,7 @@ public interface WrapperUtil {
 	 * 
 	 * @param <T>  实体类型
 	 * @param w    条件构造器
-	 * @param func 表达式
+	 * @param sFunc 表达式
 	 * @param date 时间
 	 * @return 条件构造器
 	 */
